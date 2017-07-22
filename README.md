@@ -1,10 +1,19 @@
 # GeoCore S3 Image
 
+### Runtime Dependencies
+
+- [AWS SDK for PHP] version 3.
+- [ramsey/uuid] version 3.
+
+[AWS SDK for PHP]: https://aws.amazon.com/sdk-for-php/
+[ramsey/uuid]:
+
 ## Installation
 
-Place the contents of this addon into `addons/s3image`
-under the root of your [GeoCore] install.
-Then, install and enable the addon.
+1. Ensure the above dependencies are installed.
+2. Place the contents of this addon into `addons/s3image`
+   under the root of your [GeoCore] install.
+3. Install and enable the addon from the GeoCore admin panel.
 
 [GeoCore]: https://geodesicsolutions.com/geocore-software.html
 

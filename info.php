@@ -15,4 +15,8 @@ class addon_s3image_info
     public $auth_tag = 'otr_addons';
     public $author_url = 'https://evansosenko.com';
     public $info_url = 'https://github.com/ourtownrentals/geocore-s3image';
+
+    public $core_events = array (
+        'notify_image_insert'
+    );
 }
