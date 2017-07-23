@@ -10,7 +10,7 @@ class addon_s3image_info
     public $version = '0.0.1';
     public $core_version_minimum = '17.0.0';
     public $title = 'S3 Image Addon';
-    public $author = 'Evan Sosenko';
+    public $author = 'OurTownRentals.com';
     public $description = '';
     public $auth_tag = 'otr_addons';
     public $author_url = 'https://evansosenko.com';
