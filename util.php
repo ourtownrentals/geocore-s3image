@@ -20,7 +20,7 @@ class addon_s3image_util extends addon_s3image_info
         $thumb_path = $image_info['file_path'] . $image_info['thumb_filename'];
 
         /* Generate new S3 resource key. */
-        $uuid4 = Uuid::uuid4();
+        $uuid4 = Ramsey\Uuid\Uuid::uuid4();
         $full_key = $uuid4 . '-full.jpg';
         $thumb_key = $uuid4 . '-thumb.jpg';
         $url = $settings['base_url'] . '/' . $key;
