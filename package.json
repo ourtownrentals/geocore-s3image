@@ -1,0 +1,21 @@
+{
+  "name": "@ourtownrentals/geocore-s3image",
+  "version": "0.0.0",
+  "description": "Upload and serve images on GeoCore using AWS S3.",
+  "main": "./info.php",
+  "keywords": [
+    "ourtownrentals",
+    "geocore"
+  ],
+  "homepage": "https://github.com/ourtownrentals/geocore-s3image",
+  "bugs": "https://github.com/ourtownrentals/geocore-s3image/issues",
+  "repository": "ourtownrentals/geocore-s3image",
+  "license": "MIT",
+  "author": {
+    "name": "Evan Sosenko",
+    "email": "razorx@evansosenko.com"
+  },
+  "files": [
+    "*.php"
+  ]
+}
