@@ -2,19 +2,19 @@
 /**
  * @package S3ImageAddon
  */
-class addon_s3images_admin extends addon_s3images_info
+class addon_s3image_admin extends addon_s3image_info
 {
     public function init_pages ($menuName)
     {
         menu_page::addonAddPage(
-            'addon_s3images_settings',
+            'addon_s3image_settings',
             '',
             'Settings',
             $this->name
         );
     }
 
-    public function display_addon_s3images_settings ()
+    public function display_addon_s3image_settings ()
     {
         $reg = geoAddon::getRegistry($this->name);
 
@@ -38,7 +38,7 @@ class addon_s3images_admin extends addon_s3images_info
             ->setBodyVar($tpl_vars);
     }
 
-    public function update_addon_s3images_settings ()
+    public function update_addon_s3image_settings ()
     {
         if (isset($_POST['settings'])) {
             $settings = $_POST['settings'];
