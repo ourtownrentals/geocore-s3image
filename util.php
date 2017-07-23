@@ -1,5 +1,7 @@
 <?php
 
+require GEO_BASE_DIR . '/vendor/autoload.php';
+
 /**
  * Addon information class.
  *
