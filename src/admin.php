@@ -16,6 +16,7 @@ class addon_s3image_admin extends addon_s3image_info
 
     public function display_addon_s3image_settings ()
     {
+        $admin = geoAdmin::getInstance();
         $reg = geoAddon::getRegistry($this->name);
 
         // Load existing settings or submitted settings on error.
@@ -29,9 +30,30 @@ class addon_s3image_admin extends addon_s3image_info
         $reg->settings_with_error = null;
         $reg->save();
 
+        $s3_status = 'Unknown';
+        try {
+            $credentials = new Aws\Credentials\Credentials(
+                $settings['aws_key'],
+                $settings['aws_secret']
+            );
+            $s3 = new Aws\S3\S3Client([
+                'region'      => $settings['aws_region'],
+                'version'     => '2006-03-01',
+                'credentials' => $credentials
+            ]);
+            $s3_status = $s3->headBucket([
+                'Bucket' => $settings['s3_bucket'],
+            ]);
+            $s3_status = 'OK';
+        } catch (Exception $e) {
+            $admin->userError($e->getMessage());
+            $s3_status = 'Error';
+        }
+
         $tpl_vars = array();
         $tpl_vars['admin_messages'] = geoAdmin::m();
         $tpl_vars['settings'] = $settings;
+        $tpl_vars['s3_status'] = $s3_status;
 
         geoView::getInstance()
             ->setBodyTpl('admin/settings.tpl', $this->name)

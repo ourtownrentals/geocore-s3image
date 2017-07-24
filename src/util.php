@@ -33,6 +33,7 @@ class addon_s3image_util extends addon_s3image_info
             $settings['aws_secret']
         );
         $s3 = new Aws\S3\S3Client([
+            'region'      => $settings['aws_region'],
             'version'     => '2006-03-01',
             'credentials' => $credentials
         ]);

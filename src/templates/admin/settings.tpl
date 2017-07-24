@@ -1,8 +1,15 @@
 {$admin_messages}
 <form action="" method="post">
   <fieldset>
-    <legend>Settings</legend>
-    <div>
+      <div class="{cycle values='row_color1,row_color2'}">
+        <div class="leftColumn">
+          S3 Bucket Connection Status
+        </div>
+        <div class="rightColumn">
+          {$s3_status}
+        </div>
+        <div class="clearColumn"></div>
+      </div>
 
       <div class="{cycle values='row_color1,row_color2'}">
         <div class="leftColumn">
@@ -32,6 +39,19 @@
 
       <div class="{cycle values='row_color1,row_color2'}">
         <div class="leftColumn">
+          AWS Region
+          <img style="border-style: none;" src="admin_images/help.gif" alt="" class="tooltip" />
+          <span class="tooltipTitleSpan" style="display: none;">aws region</span>
+          <span class="tooltipTextSpan" style="display: none;">e.g. us-east-1</span>
+        </div>
+        <div class="rightColumn">
+          <input type="text" size="70" name="settings[aws_region]" value="{$settings.aws_region}" />
+        </div>
+        <div class="clearColumn"></div>
+      </div>
+
+      <div class="{cycle values='row_color1,row_color2'}">
+        <div class="leftColumn">
           AWS Access Key ID
           <img style="border-style: none;" src="admin_images/help.gif" alt="" class="tooltip" />
           <span class="tooltipTitleSpan" style="display: none;">aws access key id</span>
@@ -51,7 +71,7 @@
           <span class="tooltipTextSpan" style="display: none;">e.g. wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
         </div>
         <div class="rightColumn">
-          <input type="text" size="70" name="settings[aws_secret]" value="{$settings.aws_secret}" />
+          <input type="password" size="70" name="settings[aws_secret]" value="{$settings.aws_secret}" />
         </div>
         <div class="clearColumn"></div>
       </div>
