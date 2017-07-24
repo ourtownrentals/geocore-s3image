@@ -11,7 +11,7 @@
 ## Installation
 
 1. Ensure the above dependencies are installed.
-2. Place the contents of this addon into `addons/s3image`
+2. Place the contents of `src` into `addons/s3image`
    under the root of your [GeoCore] install.
 3. Install and enable the addon from the GeoCore admin panel.
 
