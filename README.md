@@ -1,21 +1,30 @@
 # GeoCore S3 Image
 
+## Description
+
+[GeoCore] addon that uploads user images to an [Amazon S3] bucket.
+
+The allows for hosting GeoCore on cloud services without persistent storage
+and scaling beyond a single instance.
+
+[Amazon S3]: https://aws.amazon.com/s3/
+[GeoCore]: https://geodesicsolutions.com/geocore-software.html
+
+## Installation
+
 ### Runtime Dependencies
 
 - [AWS SDK for PHP] version 3.
 - [ramsey/uuid] version 3.
 
 [AWS SDK for PHP]: https://aws.amazon.com/sdk-for-php/
-[ramsey/uuid]:
+[ramsey/uuid]: https://github.com/ramsey/uuid
 
-## Installation
 
 1. Ensure the above dependencies are installed.
 2. Place the contents of `src` into `addons/s3image`
    under the root of your [GeoCore] install.
 3. Install and enable the addon from the GeoCore admin panel.
-
-[GeoCore]: https://geodesicsolutions.com/geocore-software.html
 
 ## Source Code
 
@@ -26,7 +35,7 @@ Clone the project with
 $ git clone https://github.com/ourtownrentals/geocore-s3image.git
 ```
 
-[geocore-s3 source]: https://github.com/ourtownrentals/geocore-s3image
+[geocore-s3image source]: https://github.com/ourtownrentals/geocore-s3image
 
 ## Contributing
 
