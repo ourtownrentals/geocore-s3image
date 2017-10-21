@@ -10,9 +10,7 @@ and scaling beyond a single instance.
 [Amazon S3]: https://aws.amazon.com/s3/
 [GeoCore]: https://geodesicsolutions.com/geocore-software.html
 
-## Installation
-
-### Runtime Dependencies
+## Dependencies
 
 - [AWS SDK for PHP] version 3.
 - [ramsey/uuid] version 3.
@@ -20,6 +18,7 @@ and scaling beyond a single instance.
 [AWS SDK for PHP]: https://aws.amazon.com/sdk-for-php/
 [ramsey/uuid]: https://github.com/ramsey/uuid
 
+## Installation
 
 1. Ensure the above dependencies are installed.
 2. Place the contents of `src` into `addons/s3image`
