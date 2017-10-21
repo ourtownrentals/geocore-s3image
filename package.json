@@ -16,6 +16,7 @@
     "email": "razorx@evansosenko.com"
   },
   "files": [
-    "*.php"
+    "composer.json",
+    "src"
   ]
 }
