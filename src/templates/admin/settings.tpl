@@ -19,7 +19,7 @@
           <span class="tooltipTextSpan" style="display: none;">e.g. https://s3.amazonaws.com/photos.example.com</span>
         </div>
         <div class="rightColumn">
-          <input type="text" size="70" name="settings[base_url]" value="{$settings.base_url}" />
+          <input type="text" size="70" name="settings[s3_base_url]" value="{$settings.s3_base_url}" />
         </div>
         <div class="clearColumn"></div>
       </div>

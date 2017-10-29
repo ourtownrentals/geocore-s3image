@@ -60,7 +60,7 @@ class addon_s3image_util extends addon_s3image_info
         $uuid4 = Ramsey\Uuid\Uuid::uuid4();
         $full_key = $uuid4 . '-full.jpg';
         $thumb_key = $uuid4 . '-thumb.jpg';
-        $url = $settings['base_url'] . '/' . $key;
+        $url = $settings['s3_base_url'] . '/' . $key;
 
         /* Upload image to S3 */
         $s3 = $this->create_s3_client();
