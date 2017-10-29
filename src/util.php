@@ -9,8 +9,6 @@ require GEO_BASE_DIR . 'vendor/autoload.php';
  */
 class addon_s3image_util extends addon_s3image_info
 {
-    public $db = true;
-
     public function create_s3_client ()
     {
         $reg = geoAddon::getRegistry($this->name);
@@ -48,6 +46,9 @@ class addon_s3image_util extends addon_s3image_info
 
     public function core_notify_image_insert ($image_info)
     {
+        $db = true;
+        include(GEO_BASE_DIR . 'get_common_vars.php');
+
         $reg = geoAddon::getRegistry($this->name);
         $settings = $reg->settings;
 
@@ -87,6 +88,6 @@ class addon_s3image_util extends addon_s3image_info
         $sql  = "UPDATE " . geoTables::images_urls_table;
         $sql .= " SET `image_url` = '$image_url', `thumb_url` = $thumb_url";
         $sql .= " WHERE `id` = '$id'";
-        $this->db->Execute($sql);
+        $db->Execute($sql);
     }
 }
