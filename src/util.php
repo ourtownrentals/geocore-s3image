@@ -57,24 +57,29 @@ class addon_s3image_util extends addon_s3image_info
         $thumb_path = $image_info['file_path'] . $image_info['thumb_filename'];
 
         /* Generate new S3 resource key. */
-        $key_prefix = (string) $settings['s3_key_prefix'] . '/';
         $uuid4 = Ramsey\Uuid\Uuid::uuid4();
-        $full_key = $s3_key_prefix . $uuid4 . '-full.jpg';
-        $thumb_key = $s3_key_prefix . $uuid4 . '-thumb.jpg';
-        $url = $settings['s3_base_url'] . '/' . $key;
+        $key_prefix = (string) $settings['s3_key_prefix'];
+
+        $key = $key_prefix . '/' . $uuid4;
+        $full_key = $key . '-full.jpg';
+        $thumb_key = $key . '-thumb.jpg';
+
+        $base_url = (string) $settings['s3_base_url'];
+        $image_url = $base_url . '/' . $full_key;
+        $thumb_url = $base_url . '/' . $thumb_key;
 
         /* Upload image to S3 */
         $s3 = $this->create_s3_client();
         $s3->putObject([
             'Bucket' => $settings['s3_bucket'],
             'Key'    => $full_key,
-            'Body'   => fopen($full, 'r'),
+            'Body'   => fopen($full_path, 'r'),
             'ACL'    => 'public-read',
         ]);
         $s3->putObject([
             'Bucket' => $settings['s3_bucket'],
-            'Key'    => $key,
-            'Body'   => fopen($thumb, 'r'),
+            'Key'    => $thumb_key,
+            'Body'   => fopen($thumb_path, 'r'),
             'ACL'    => 'public-read',
         ]);
 
