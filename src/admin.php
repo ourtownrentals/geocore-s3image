@@ -71,7 +71,7 @@ class addon_s3image_admin extends addon_s3image_info
         $admin = geoAdmin::getInstance();
         $reg = geoAddon::getRegistry($this->name);
 
-        $errors = $this->checkSettingsInput($settings);
+        $errors = $this->check_settings_input($settings);
 
         // If there was an error add each error to the list of admin messages.
         if ($errors) {
@@ -91,7 +91,7 @@ class addon_s3image_admin extends addon_s3image_info
         }
     }
 
-    private function checkSettingsInput ($input)
+    private function check_settings_input ($input)
     {
         $errors = array();
         return $errors;
