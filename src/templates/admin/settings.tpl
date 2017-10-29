@@ -76,6 +76,19 @@
         <div class="clearColumn"></div>
       </div>
 
+      <div class="{cycle values='row_color1,row_color2'}">
+        <div class="leftColumn">
+          Disable SSL (local development only)
+          <img style="border-style: none;" src="admin_images/help.gif" alt="" class="tooltip" />
+          <span class="tooltipTitleSpan" style="display: none;">disable SSL</span>
+          <span class="tooltipTextSpan" style="display: none;">only disable SSL when using fake-s3</span>
+        </div>
+        <div class="rightColumn">
+          <input type="checkbox" name="settings[s3_disable_ssl]" checked="{$settings.s3_disable_ssl}" />
+        </div>
+        <div class="clearColumn"></div>
+      </div>
+
       <div class="center">
         <input type="submit" name="auto_save" class="mini_button" value="Save" />
       </div>

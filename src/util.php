@@ -11,6 +11,41 @@ class addon_s3image_util extends addon_s3image_info
 {
     public $db = true;
 
+    public function create_s3_client ()
+    {
+        $reg = geoAddon::getRegistry($this->name);
+        $settings = $reg->settings;
+
+        $credentials = new Aws\Credentials\Credentials(
+            $settings['aws_key'],
+            $settings['aws_secret']
+        );
+
+        $s3_scheme = $settings['s3_disable_ssl'] == 'on' ? 'http' : 'https';
+        $s3 = new Aws\S3\S3Client([
+            'region'      => $settings['aws_region'],
+            'scheme'      => $s3_scheme,
+            'version'     => '2006-03-01',
+            'credentials' => $credentials
+        ]);
+
+        return $s3;
+    }
+
+    public function check_s3_connection ()
+    {
+        $reg = geoAddon::getRegistry($this->name);
+        $settings = $reg->settings;
+
+        $s3 = $this->create_s3_client();
+
+        $s3_status = $s3->headBucket([
+            'Bucket' => $settings['s3_bucket']
+        ]);
+
+        return $s3_status;
+    }
+
     public function core_notify_image_insert ($image_info)
     {
         $reg = geoAddon::getRegistry($this->name);
@@ -28,15 +63,7 @@ class addon_s3image_util extends addon_s3image_info
         $url = $settings['base_url'] . '/' . $key;
 
         /* Upload image to S3 */
-        $credentials = new Aws\Credentials\Credentials(
-            $settings['aws_key'],
-            $settings['aws_secret']
-        );
-        $s3 = new Aws\S3\S3Client([
-            'region'      => $settings['aws_region'],
-            'version'     => '2006-03-01',
-            'credentials' => $credentials
-        ]);
+        $s3 = $this->create_s3_client();
         $s3->putObject([
             'Bucket' => $settings['s3_bucket'],
             'Key'    => $full_key,

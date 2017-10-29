@@ -18,6 +18,7 @@ class addon_s3image_admin extends addon_s3image_info
     {
         $admin = geoAdmin::getInstance();
         $reg = geoAddon::getRegistry($this->name);
+        $util = geoAddon::getUtil($this->name);
 
         // Load existing settings or submitted settings on error.
         if ($reg->settings_with_error) {
@@ -32,19 +33,7 @@ class addon_s3image_admin extends addon_s3image_info
 
         $s3_status = 'Unknown';
         try {
-            $credentials = new Aws\Credentials\Credentials(
-                $settings['aws_key'],
-                $settings['aws_secret']
-            );
-            $s3 = new Aws\S3\S3Client([
-                'region'      => $settings['aws_region'],
-                'version'     => '2006-03-01',
-                'credentials' => $credentials
-            ]);
-            $s3_status = $s3->headBucket([
-                'Bucket' => $settings['s3_bucket'],
-            ]);
-            $s3_status = 'OK';
+            $s3_status = $util->check_s3_connection();
         } catch (Exception $e) {
             $admin->userError($e->getMessage());
             $s3_status = 'Error';
