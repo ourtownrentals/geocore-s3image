@@ -53,7 +53,7 @@ class addon_s3image_util extends addon_s3image_info
         $settings = $reg->settings;
 
         /* Get image data. */
-        $id         = image_info['id'];
+        $id         = $image_info['id'];
         $full_path  = $image_info['file_path'] . $image_info['full_filename'];
         $thumb_path = $image_info['file_path'] . $image_info['thumb_filename'];
 
@@ -85,9 +85,13 @@ class addon_s3image_util extends addon_s3image_info
         ]);
 
         /* Update image URL in database. */
-        $sql  = "UPDATE " . geoTables::images_urls_table;
-        $sql .= " SET `image_url` = '$image_url', `thumb_url` = $thumb_url";
-        $sql .= " WHERE `id` = '$id'";
-        $db->Execute($sql);
+
+        // TODO: Use geoTables not fixed string.
+        /* $table = geoTables::images_urls_table; */
+
+        $sql = "UPDATE `geodesic_classifieds_images_urls`";
+        $sql .= " SET `image_url` = ?, `thumb_url` = ?";
+        $sql .= " WHERE image_id = ?;";
+        $db->Execute($sql, [$image_url, $thumb_url, $id]);
     }
 }
