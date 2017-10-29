@@ -15,6 +15,8 @@ and scaling beyond a single instance.
 - [AWS SDK for PHP] version 3.
 - [ramsey/uuid] version 3.
 
+These dependencies are also listed in `composer.json`.
+
 [AWS SDK for PHP]: https://aws.amazon.com/sdk-for-php/
 [ramsey/uuid]: https://github.com/ramsey/uuid
 
@@ -24,6 +26,7 @@ and scaling beyond a single instance.
 2. Place the contents of `src` into `addons/s3image`
    under the root of your [GeoCore] install.
 3. Install and enable the addon from the GeoCore admin panel.
+4. Configure S3 from the addon's settings page.
 
 ## Source Code
 
