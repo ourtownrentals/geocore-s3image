@@ -26,6 +26,20 @@
 
       <div class="{cycle values='row_color1,row_color2'}">
         <div class="leftColumn">
+          S3 Key Prefix
+          <img style="border-style: none;" src="admin_images/help.gif" alt="" class="tooltip" />
+          <span class="tooltipTitleSpan" style="display: none;">prefix to prepend to all S3 keys</span>
+          <span class="tooltipTextSpan" style="display: none;">e.g. photos/listing</span>
+        </div>
+        <div class="rightColumn">
+          <input type="text" size="70" name="settings[s3_key_prefix]" value="{$settings.s3_key_prefix}" />
+        </div>
+        <div class="clearColumn"></div>
+      </div>
+
+
+      <div class="{cycle values='row_color1,row_color2'}">
+        <div class="leftColumn">
           AWS S3 Bucket
           <img style="border-style: none;" src="admin_images/help.gif" alt="" class="tooltip" />
           <span class="tooltipTitleSpan" style="display: none;">s3 bucket</span>

@@ -57,9 +57,10 @@ class addon_s3image_util extends addon_s3image_info
         $thumb_path = $image_info['file_path'] . $image_info['thumb_filename'];
 
         /* Generate new S3 resource key. */
+        $key_prefix = (string) $settings['s3_key_prefix'] . '/';
         $uuid4 = Ramsey\Uuid\Uuid::uuid4();
-        $full_key = $uuid4 . '-full.jpg';
-        $thumb_key = $uuid4 . '-thumb.jpg';
+        $full_key = $s3_key_prefix . $uuid4 . '-full.jpg';
+        $thumb_key = $s3_key_prefix . $uuid4 . '-thumb.jpg';
         $url = $settings['s3_base_url'] . '/' . $key;
 
         /* Upload image to S3 */
