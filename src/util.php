@@ -9,7 +9,48 @@ require GEO_BASE_DIR . 'vendor/autoload.php';
  */
 class addon_s3image_util extends addon_s3image_info
 {
-    public function create_s3_client ()
+    private $db = false;
+    private $s3 = false;
+
+    private function get_db ()
+    {
+        if (!$this->db) {
+            $db = true;
+            include(GEO_BASE_DIR . 'get_common_vars.php');
+            $this->db = $db;
+        }
+        return $this->db;
+    }
+
+    private function get_s3 ()
+    {
+        if (!$this->s3) {
+            $this->s3 = $this->create_s3_client();
+        }
+        return $this->s3;
+    }
+
+    private function get_s3_prefix ()
+    {
+        $reg = geoAddon::getRegistry($this->name);
+        $settings = $reg->settings;
+
+        return trim((string) $settings['s3_key_prefix'], '/');
+    }
+
+    private function create_uuid ()
+    {
+        $uuid = Ramsey\Uuid\Uuid::uuid4();
+        return str_replace('-', '', $uuid);
+    }
+
+    private function create_s3_key ($name)
+    {
+        $key = $this->get_s3_prefix() . '/' . $name;
+        return $key;
+    }
+
+    private function create_s3_client ()
     {
         $reg = geoAddon::getRegistry($this->name);
         $settings = $reg->settings;
@@ -30,12 +71,52 @@ class addon_s3image_util extends addon_s3image_info
         return $s3;
     }
 
-    public function check_s3_connection ()
+    private function put_s3_file ($key, $path, $mime_type)
     {
+        $s3 = $this->get_s3();
         $reg = geoAddon::getRegistry($this->name);
         $settings = $reg->settings;
 
-        $s3 = $this->create_s3_client();
+        $s3->putObject([
+            'Bucket'      => $settings['s3_bucket'],
+            'Key'         => $key,
+            'Body'        => fopen($path, 'r'),
+            'ContentType' => $mime_type,
+            'ACL'         => 'public-read'
+        ]);
+    }
+
+    private function set_image_data (
+        $id,
+        $full_filename,
+        $thumb_filename,
+        $full_key,
+        $thumb_key
+    )
+    {
+        $db = $this->get_db();
+        $reg = geoAddon::getRegistry($this->name);
+        $settings = $reg->settings;
+
+        $base_url  = trim((string) $settings['s3_base_url'], '/');
+        $image_url = $base_url . '/' . $full_key;
+        $thumb_url = $base_url . '/' . $thumb_key;
+
+        // TODO: Use geoTables not fixed string.
+        /* $table = geoTables::images_urls_table; */
+
+        // TODO: Use query building methods.
+        $sql = "UPDATE `geodesic_classifieds_images_urls`";
+        $sql .= " SET `full_filename` = ?, `thumb_filename` = ?, `image_url` = ?, `thumb_url` = ?";
+        $sql .= " WHERE image_id = ?;";
+        $db->Execute($sql, [$full_filename, $thumb_filename, $image_url, $thumb_url, $id]);
+    }
+
+    public function check_s3_connection ()
+    {
+        $s3 = $this->get_s3();
+        $reg = geoAddon::getRegistry($this->name);
+        $settings = $reg->settings;
 
         $s3_status = $s3->headBucket([
             'Bucket' => $settings['s3_bucket']
@@ -46,52 +127,20 @@ class addon_s3image_util extends addon_s3image_info
 
     public function core_notify_image_insert ($image_info)
     {
-        $db = true;
-        include(GEO_BASE_DIR . 'get_common_vars.php');
-
-        $reg = geoAddon::getRegistry($this->name);
-        $settings = $reg->settings;
-
-        /* Get image data. */
         $id         = $image_info['id'];
+        $mime_type  = $image_info['mime_type'];
         $full_path  = $image_info['file_path'] . $image_info['full_filename'];
         $thumb_path = $image_info['file_path'] . $image_info['thumb_filename'];
+        $extension  = pathinfo($full_path)['extension'];
 
-        /* Generate new S3 resource key. */
-        $uuid4 = Ramsey\Uuid\Uuid::uuid4();
-        $key_prefix = (string) $settings['s3_key_prefix'];
+        $uuid       = $this->create_uuid();
+        $full_name  = $uuid . '-full.' . $extension;
+        $thumb_name = $uuid . '-thumb.' . $extension;
+        $full_key   = $this->create_s3_key($full_name);
+        $thumb_key  = $this->create_s3_key($thumb_name);
 
-        $key = $key_prefix . '/' . $uuid4;
-        $full_key = $key . '-full.jpg';
-        $thumb_key = $key . '-thumb.jpg';
-
-        $base_url = (string) $settings['s3_base_url'];
-        $image_url = $base_url . '/' . $full_key;
-        $thumb_url = $base_url . '/' . $thumb_key;
-
-        /* Upload image to S3 */
-        $s3 = $this->create_s3_client();
-        $s3->putObject([
-            'Bucket' => $settings['s3_bucket'],
-            'Key'    => $full_key,
-            'Body'   => fopen($full_path, 'r'),
-            'ACL'    => 'public-read',
-        ]);
-        $s3->putObject([
-            'Bucket' => $settings['s3_bucket'],
-            'Key'    => $thumb_key,
-            'Body'   => fopen($thumb_path, 'r'),
-            'ACL'    => 'public-read',
-        ]);
-
-        /* Update image URL in database. */
-
-        // TODO: Use geoTables not fixed string.
-        /* $table = geoTables::images_urls_table; */
-
-        $sql = "UPDATE `geodesic_classifieds_images_urls`";
-        $sql .= " SET `image_url` = ?, `thumb_url` = ?";
-        $sql .= " WHERE image_id = ?;";
-        $db->Execute($sql, [$image_url, $thumb_url, $id]);
+        $this->put_s3_file($full_key, $full_path, $mime_type);
+        $this->put_s3_file($thumb_key, $thumb_path, $mime_type);
+        $this->set_image_data($id, $full_name, $thumb_name, $full_key, $thumb_key);
     }
 }
