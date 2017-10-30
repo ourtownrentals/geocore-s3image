@@ -56,13 +56,13 @@ class addon_s3image_util extends addon_s3image_info
         $settings = $reg->settings;
 
         $credentials = new Aws\Credentials\Credentials(
-            $settings['aws_key'],
-            $settings['aws_secret']
+            trim($settings['aws_key']),
+            trim($settings['aws_secret'])
         );
 
         $s3_scheme = $settings['s3_disable_ssl'] == 'on' ? 'http' : 'https';
         $s3 = new Aws\S3\S3Client([
-            'region'      => $settings['aws_region'],
+            'region'      => trim($settings['aws_region']),
             'scheme'      => $s3_scheme,
             'version'     => '2006-03-01',
             'credentials' => $credentials
@@ -78,7 +78,7 @@ class addon_s3image_util extends addon_s3image_info
         $settings = $reg->settings;
 
         $s3->putObject([
-            'Bucket'      => $settings['s3_bucket'],
+            'Bucket'      => trim($settings['s3_bucket']),
             'Key'         => $key,
             'Body'        => fopen($path, 'r'),
             'ContentType' => $mime_type,
@@ -115,7 +115,7 @@ class addon_s3image_util extends addon_s3image_info
         $settings = $reg->settings;
 
         $s3_status = $s3->headBucket([
-            'Bucket' => $settings['s3_bucket']
+            'Bucket' => trim($settings['s3_bucket'])
         ]);
 
         return $s3_status;
