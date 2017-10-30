@@ -98,7 +98,7 @@
           <span class="tooltipTextSpan" style="display: none;">only disable SSL when using fake-s3</span>
         </div>
         <div class="rightColumn">
-          <input type="checkbox" name="settings[s3_disable_ssl]" checked="{$settings.s3_disable_ssl}" />
+          <input type="checkbox" name="settings[s3_disable_ssl]"{if $settings.s3_disable_ssl == on} checked="{$settings.s3_disable_ssl}"{/if} />
         </div>
         <div class="clearColumn"></div>
       </div>
