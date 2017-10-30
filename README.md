@@ -7,6 +7,8 @@
 The allows for hosting GeoCore on cloud services without persistent storage
 and scaling beyond a single instance.
 
+_Note: rotating images is not yet supported._
+
 [Amazon S3]: https://aws.amazon.com/s3/
 [GeoCore]: https://geodesicsolutions.com/geocore-software.html
 
