@@ -102,11 +102,8 @@ class addon_s3image_util extends addon_s3image_info
         $image_url = $base_url . '/' . $full_key;
         $thumb_url = $base_url . '/' . $thumb_key;
 
-        // TODO: Use geoTables not fixed string.
-        /* $table = geoTables::images_urls_table; */
-
         // TODO: Use query building methods.
-        $sql = "UPDATE `geodesic_classifieds_images_urls`";
+        $sql = "UPDATE " . geoTables::images_urls_table;
         $sql .= " SET `full_filename` = ?, `thumb_filename` = ?, `image_url` = ?, `thumb_url` = ?";
         $sql .= " WHERE image_id = ?;";
         $db->Execute($sql, [$full_filename, $thumb_filename, $image_url, $thumb_url, $id]);
