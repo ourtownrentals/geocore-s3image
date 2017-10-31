@@ -33,7 +33,8 @@ class addon_s3image_admin extends addon_s3image_info
 
         $s3_status = 'Unknown';
         try {
-            $s3_status = $util->check_s3_connection();
+            $util->check_s3_connection();
+            $s3_status = 'OK'
         } catch (Exception $e) {
             $admin->userError($e->getMessage());
             $s3_status = 'Error';
