@@ -7,7 +7,7 @@
 class addon_s3image_info
 {
     public $name = 's3image';
-    public $version = '0.1.2';
+    public $version = '0.1.3';
     public $core_version_minimum = '17.0.0';
     public $title = 'S3 Image Addon';
     public $author = 'OurTownRentals.com';
