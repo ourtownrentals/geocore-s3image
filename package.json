@@ -19,6 +19,7 @@
     "postversion": "git push && git push --tags && npm publish"
   },
   "files": [
+    "package-lock.json",
     "composer.json",
     "src"
   ]
