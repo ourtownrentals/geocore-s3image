@@ -15,6 +15,9 @@
     "name": "Evan Sosenko",
     "email": "razorx@evansosenko.com"
   },
+  "scripts": {
+    "postversion": "git push && git push --tags && npm publish"
+  },
   "files": [
     "composer.json",
     "src"
